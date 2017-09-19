@@ -7,7 +7,7 @@ using namespace std;
 Donor::Donor(){}
 
 void Donor::runProgram(){
-	string run = "Testing";
+	string run = "";
 	while(run != "Quit"){
 		cout << endl;
 		cout << "Enter a command."  << endl;
@@ -30,7 +30,14 @@ void Donor::runProgram(){
 	}
 }
 void Donor::memberMenu(){
-	cout << "This is the call to the memberMenu... Not complete yet!" << endl;
+	string run = "";
+	
+	cout << endl;
+	cout << "Enter a command." << endl;
+	cout << "Choose from [Manage, Passwd, View, Donate, Total, Logout]: ";
+	cin >> run;
+	cout << endl;
+
 
 }
 
