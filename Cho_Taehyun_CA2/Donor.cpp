@@ -1,158 +1,333 @@
 #include <iostream>
 #include <stdlib.h>
 #include <iomanip>
+#include <map>
+#include <string>
 #include "Donor.h"
 using namespace std;
 
-Donor::Donor(){}
+Donor::Donor(){
+		last = " "; 
+		first = " ";  
+		streetName = " ";  
+		town = " ";  
+		zip = " ";  
+		userId = "" ; 
+		pw = " "; 
+		st = " "; 
+		age = 0;
+		streetNum = 0;
+		userAmount = 0.00;
+		totalDonors = 0;
+}
 
-void Donor::runProgram(){
+void Donor::memberMenu(){
 	string run = "";
-	while(run != "Quit"){
-		cout << endl;
-		cout << "Enter a command."  << endl;
-		cout << "Choose from [Login, Add, Save, Load, Report, Quit]: ";
+
+	while(run != "Logout"){
+		cout << "Enter a command." << endl;
+		cout << "Choose from [Manage, Passwd, View, Donate, Total, Logout]: ";
 		cin >> run;
 		cout << endl; //for spacing
-		if(run == "Login"){
-			loginFunc();
-		}else if(run == "Add"){
-			addFunc(&last, &first, &age, &streetNum, &streetName, &town, &zip);
-		}else if(run == "Save"){
-			saveFunc();
-		}else if(run == "Load"){
-			loadFunc();		
-		}else if(run == "Report"){
-			reportFunc();
+		if(run == "Manage"){
+			manageFunc();
+		}else if(run == "Passwd"){
+			passwdFunc();
+		}else if(run == "View"){
+			viewFunc();
+		}else if(run == "Donate"){
+			donateFunc();		
+		}else if(run == "Total"){
+			totalFunc();
 		}else{
-			if (run != "Quit"){cout << "Command not recognized. Please try again." << endl;}
+			if (run != "Logout"){cout << "Command not recognized. Please try again." << endl;}
 		}	
 	}
 }
-void Donor::memberMenu(){
-	string run = "";
-	
-	cout << endl;
-	cout << "Enter a command." << endl;
-	cout << "Choose from [Manage, Passwd, View, Donate, Total, Logout]: ";
-	cin >> run;
-	cout << endl;
-
-
+float Donor::getUserAmount(){
+	return userAmount;
+}
+string Donor::getuserID(){
+	return userId;
+}
+string Donor::getpw(){
+	return pw;
+}
+string Donor::getLast(){
+	return last;
+}
+string Donor::getFirst(){
+	return first;
+}
+string Donor::getStreetName(){
+	return streetName;
+}
+string Donor::getTown(){
+	return town;
+}
+string Donor::getZip(){
+	return zip;
+}
+string Donor::getState(){ 
+	return st;
+}
+int Donor::getAge(){
+	return age;
+}
+int Donor::getstreetNum(){
+	return streetNum;
+}
+string Donor::setuserID(){
+	string id;
+	cout << "Enter a new userID: ";
+	cin >> id;
+	return id;
+}
+void Donor::setUserID(string id){
+	this->userId = id;	
+}
+void Donor::setpw(string input){
+	pw = input;
+}
+void Donor::setLast(string input){
+	last = input;
+}
+void Donor::setFirst(string input){
+	first = input;
+}
+void Donor::setAge(int input){
+	age = input;
+}
+void Donor::setStreetNum(int input){
+	streetNum = input;
+}
+void Donor::setStreetName(string input){
+	streetName = input;
+}
+void Donor::setTown(string input){
+	town = input;
+}
+void Donor::setZip(string input){
+	zip = input;
+}
+void Donor::setUserAmount(float input){
+	userAmount = input;
+}
+void Donor::setState(string input){
+	st = input;
 }
 
-void Donor::loginFunc(){ 
-	bool access = false;
-	string tempUserID;
-	string tempPassword;
-
-	while(access == false){
-	cout << endl; //for spacing
-	cout << "userID: ";
-	cin >> tempUserID;
-	cout << "Password: ";
-	cin >> tempPassword;
-
-	//If id and password correct: 
-	access = false;
-	memberMenu(); //Perhaps pass on an array index of the user??? or something as parameter 
-	
-	
-	//If id and password not correct
-	/*	
-	cout << "Incorrect UserId and password. Please Try again." << endl;	
-
-	*/
+void Donor::addFunc(){
+	int looper = 1;
+	bool check;
+	while(looper == 1){
+		cout << "Enter a password: ";
+		cin.ignore();
+		getline(cin,pw);
+		check = checkpw(pw);
+		if(check == true) break;
 	}
-	//maybe have a for loop that checks the object array to see if user and password is correct
-	//Then allow access to 2nd level menu
-	//If not, then tell user the id and pw is not correct
 
-}
-void Donor::saveFunc(){
-	//Function that saves all current donor database information into a file. 
-	//Prompt user for name of file to save information to and open and write. Warn if exists
-		//Allow user to select a different file or overwrite 
-	cout << "saveFunction being worked on..." << endl;
-	
-}
-void Donor::loadFunc(){
-	cout << "load Function being worked on..." << endl;
-	cout << endl;
-	cout << "Please enter the name of the file: " << endl;
-	//Replace any information "in memory" overwritten by contents of the file user inputs
-	//Format must match the output file for save
-	
-	
-}
-void Donor::reportFunc(){
-	cout << "REPORT REPORT" << endl;
-	cout << "Report:" << endl;
-	cout << endl;
+	while(looper == 1){
+		cout << "Last Name: ";
+		getline(cin,last);
+		check = checkStrings(last);
+		if(check == true) break;
+	}
 
-	cout << "Total number of donors in the database: "; // Fill in later
-	cout << "Total amount donated to campaign: "; //Fill in later.	
-}
+	while(looper == 1){
+		cout << "First Name: ";
+		getline(cin,first);
+		check = checkStrings(first);
+		if(check == true) break;
+	}
 
-void Donor::addFunc(string *last, string *first,int *age, int *streetNum, string *streetName, string *town, string *zip){
-	string ln, fn, sName, t, z;
-	int a, sNum; 
-
-	cout << "Last Name: ";
-	cin >> ln;
-	cout << "First Name: ";
-	cin >> fn;
 	cout << "Age: ";
-	cin >> a;
-	cout << "House Number: ";
-	cin >> sNum;
+	cin >> age;
+	while (age < 18){
+		cout << "You have entered an invalid age. Please try again..." << endl << "Age: ";
+		cin >> age;
+	}
+
+	while(looper ==1){
+		cout << "House Number: ";
+		cin >> streetNum; 
+		if(streetNum > 0)break;
+	}
 	cout << "Street Name: ";
-	cin >> sName;
+	cin.ignore(); getline(cin,streetName);
+
 	cout << "Town: ";
-	cin >> t;
-	cout << "Zip Code: ";
-	cin >> z;
+	getline(cin,town);
+
+	while(looper == 1){
+		cout << "State (NY, PA, RI, NH, VT, MA, CT, ME): ";
+		cin >> st;
+		check = stateCheck(st);
+		if (check == true) {break;}
+
+	}
 	
-	*last =  ln;
-	*first = fn;
-	*age = a;
-	*streetNum = sNum;
-	*streetName = sName;
-	*town = t;
-	*zip = z;
-}
-void Donor::manageFunc(string *last, string *first,int *age, int *streetNum, string *streetName, string *town, string *zip){
-	string ln, fn, sName, t, z;
-	int a, sNum;
-	cout << "Last Name: ";
-	cin >> ln;
-	cout << "First Name: ";
-	cin >> fn;
-	cout << "Age: ";
-	cin >> a;
-	cout << "House Number: ";
-	cin >> sNum;
-	cout << "Street Name: ";
-	cin >> sName;
-	cout << "Town: ";
-	cin >> t;
-	cout << "Zip Code: ";
-	cin >> z;
+	while(looper ==1){
+		cout << "Zip Code: ";
+		cin >> zip;
+		check = zipCheck(zip);
+		if (check == true) {break;}
+	}	
 	
-	*last =  ln;
-	*first = fn;
-	*age = a;
-	*streetNum = sNum;
-	*streetName = sName;
-	*town = t;
-	*zip = z;
+
+	userAmount = 0.00;
 }
+bool Donor::checkpw(string password){
+	string::iterator it;
+	int counter1 = 0;
+	int counter2 = 0;
+	if (password.length() + 1 < 6) {return false;}
+	for(it = password.begin(); it < password.end(); it++){
+		if(ispunct(*it)) {counter1++;}
+		if(isdigit(*it)) {counter2++;}	
+	}
+	if (counter1 >= 1 && counter2 >= 1) return true;
+	return false;
+}
+bool Donor::checkStrings(string input){
+	string::iterator it;
+	for(it = input.begin(); it < input.end(); it++){
+		if(!isalpha(*it)) return false;
+	}
+	return true;
+
+}
+bool Donor::zipCheck(string zip){
+	string::iterator it;
+	if (zip.length() != 5) return false;
+	for(it = zip.begin(); it < zip.end(); it++){
+		if(!isdigit(*it)) return false;
+	}
+	return true;
+}
+bool Donor::stateCheck(string st){
+	map<string, State> mp;
+	mp["NY"] = NY;
+	mp["PA"] = PA;
+	mp["RI"] = RI;
+	mp["NH"] = NH;
+	mp["VT"] = VT;
+	mp["MA"] = MA;
+	mp["CT"] = CT;
+	mp["ME"] = ME;
+	try{
+		if( mp.at(st) >= 0 && mp.at(st) < 8)return true;
+	}catch(const std::out_of_range& e){}
+	return false;	
+}
+void Donor::manageFunc(){
+	int looper = 1; string userInput;
+	bool check;
+	while(looper = 1){
+		cout << "Please Enter which field you would like to update... " << endl;
+		cout << "Options: [Name, Age, Address] " << endl;
+		cout << "User Input: ";
+		cin >> userInput;
+		if (userInput == "Name"){
+			while(looper == 1){
+				cout << "Last Name: ";
+				cin.ignore();
+				getline(cin,last);
+				check = checkStrings(last);
+				if(check == true)break;
+			}
+
+			while(looper == 1){
+				cout << "First Name: ";
+				//cin.ignore();
+				getline(cin,first);
+				check = checkStrings(first);
+				if(check == true) break;
+			}
+			break;
+
+		}else if(userInput == "Age"){
+			cout << "Age: ";
+			cin >> age;
+			while (age < 18){
+				cout << "You have entered an invalid age. Please try again.." << endl << "Age: ";
+				cin >> age;
+			}
+			break;
+		}
+
+		else if(userInput == "Address"){
+			while(looper ==1){
+				cout << "House Number: ";
+				cin >> streetNum; 
+				if(streetNum > 0)break;
+			}
+			cout << "Street Name: ";
+			cin.ignore(); getline(cin,streetName);
+
+			cout << "Town: ";
+			getline(cin,town);
+
+			cout << "State (NY, PA, RI, NH, VT, MA, CT, ME): ";
+			cin >> st;
+			//eNums coming soon....
+	
+			while(looper ==1){
+				cout << "Zip Code: ";
+				cin >> zip;
+				check = zipCheck(zip);
+				if (check == true) {break;}
+			}
+			break;	
+		}
+		else{cout << "Invalid input. please try again." << endl;}
+	}
+	
+}
+void Donor::passwdFunc(){
+	string userInput;
+	string userInput2;
+	string userInput3;
+	int looper = 1;
+	bool check;
+	cout << "You have requested a password change..." << endl;
+	cout << "Please enter your old password: ";
+	cin >> userInput;
+	cout << endl;
+
+	if(userInput == pw){
+		//check if the password is correct to database of user
+		if(userInput == pw){
+			while(looper == 1){
+				cout << "Enter a new password: ";
+				cin.ignore();
+				getline(cin,userInput2);
+				cout << "Please re-enter the new password: ";
+				getline(cin,userInput3);
+
+				if(userInput2 == userInput3)check = checkpw(userInput2);
+				if(check == true) {
+					cout << "Password Successfully changed..." << endl;
+					pw = userInput2; break;
+                    
+				}
+			}
+		}
+		else{cout << "Password entered did not match old Password... Request canceled" << endl;}
+	}
+	else{cout << "Password entered did not match. Password change request canceled" << endl;}
+}
+
 void Donor::viewFunc(){
 	cout << "Donor Info " << endl;
-	cout << first << " " << last << ": " << "age " << age << endl;
+	cout << "UserID: " << userId << endl;
+	cout << "Name: " << first << " " << last << endl;
+	cout << "age: " << age << endl;
+	cout << "Address: "  << endl;
 	cout << streetNum << " " << streetName << endl;
-	cout << town << ", " << "NY" << " " << zip << endl;
-	cout << "Current Amount Donated: " << "$" << fixed << setprecision(2) << amount << endl;
+	cout << town << ", " << st << " " << zip << endl;
+	cout << "Current Amount Donated: " << "$" << fixed << setprecision(2) << userAmount << endl;
 }
 void Donor::donateFunc(){
 	float userInput;
@@ -163,13 +338,14 @@ void Donor::donateFunc(){
 		cin >> userInput;
 		if(userInput < 0){cout<< "Invalid amount entered. Please try again..." << endl;}
 		else{
-			balanceOver = amount;
+			balanceOver = userAmount;
 			balanceOver += userInput; 
 			if (balanceOver > 5000) {
 				cout << "Invalid amount entered. Total amount donated cannot grow beyond $5,000" << endl;
+				break;
 			}
 			else{
-				amount += userInput; 
+				userAmount += userInput; 
 				cout << "$" << userInput << fixed << setprecision(2) << " donated." << endl;
 				balanceChecker = false;
 			}
@@ -177,6 +353,11 @@ void Donor::donateFunc(){
 	}	
 }
 void Donor::totalFunc(){
-	cout << "$" << fixed << setprecision(2) << amount << endl;
+	cout << last << " $" << fixed << setprecision(2) << userAmount << endl;
 }
 
+
+//isalpha(*it)  check letters
+//ispunc 		check special char
+//isdigit(*it)  check numbers 
+//isspace(*it) 	checks for spaces 
